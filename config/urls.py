@@ -19,8 +19,8 @@ from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name="home"),
+    path('', include('sso.urls', 'sso')),
     path('admin/', admin.site.urls),
     path('about/', TemplateView.as_view(template_name='about.html'), name="about"),
     path('accounts/', include('allauth.urls')),
-    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 ]
