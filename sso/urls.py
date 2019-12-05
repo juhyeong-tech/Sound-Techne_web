@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 import oauth2_provider.views as oauth2_views
 from django.conf import settings
-from .views import ApiEndpoint
+from .views import SSOProviderView
 
 app_name = 'oauth2_provider'
 
@@ -29,8 +29,13 @@ if settings.DEBUG:
             name="authorized-token-delete"),
     ]
 
+
 urlpatterns = [
     # OAuth 2 endpoints:
     url(r'^o/', include(oauth2_endpoint_views), name="oauth2_provider"),
-    url(r'^api/hello', ApiEndpoint.as_view()),  # an example resource endpoint
+    url(r'^sso/', SSOProviderView.as_view(
+            sso_redirect=settings.DISCOURSE_SSO_REDIRECT,
+            sso_secret=settings.DISCOURSE_SSO_KEY
+        ), name="sso"
+    ),
 ]
